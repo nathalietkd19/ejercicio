@@ -15,7 +15,7 @@ class ClienteModelo {
 
     function _construct()
     {
-        $this->enlace= new mysqli();
+        $this->enlace= new DrMysqli();
 
     }
 

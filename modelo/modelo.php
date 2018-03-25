@@ -3,40 +3,51 @@
  * Created by PhpStorm.
  * User: Laboratorio2
  * Date: 25/03/2018
- * Time: 14:59
+ * Time: 14:57
  */
+
 
 require_once '../driver.php';
 
-class ClienteModelo{
+class ClienteModelo {
+
     private $enlace;
 
-    function __construct()
+    function _construct()
     {
-        $this->enlace = new DMysqli();
+        $this->enlace= new mysqli();
+
     }
 
-    function saludar(){
-        return 'ESTE MSJ VIENE DEL MODELO';
+    function eliminar($id){
+
+        $consulta="DELETE FROM clientes WHERE Id=" .$id;
+
+        return $this-> enlace-> query($consulta);
+
     }
 
-    function eliminarCliente($id){
-        $consulta = "DELETE FROM cliente WHERE id = " . $id;
+    function agregar($nombre, $edad, $sexo)
+    {
+        $consulta=sprintf("INSERT INTO clientes VALUES(DEFAULT'%s', '%i','%b', DEFAULT)", $nombre, $edad, $sexo);
         return $this->enlace->query($consulta);
+
+
     }
 
-    function agregarCliente($nombre, $apellido, $edad){
-        $consulta = sprintf("INSERT INTO cliente VALUES (DEFAULT,'%s','%s',%d,DEFAULT)", $nombre, $apellido, $edad);
+
+
+    function desactivar($id){
+        $consulta="UPDATE clientes set Activo = 0  WHERE Id=".$id;
+
         return $this->enlace->query($consulta);
+
     }
 
-    function desactivarCliente($id){
-        $consulta = "UPDATE cliente set activo = 0 WHERE id = " . $id;
-        return $this->enlace->query($consulta);
-    }
+    function  obtener(){
 
-    function obtenerClientes(){
-        $consulta = "SELECT * FROM cliente WHERE activo = 1";
+        $consulta="SELECT * FROM clientes WHERE Activo=1";
         return $this->enlace->multiples_datos($consulta);
     }
+
 }
